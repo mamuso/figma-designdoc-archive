@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/mamuso/figma-designdoc/issues"
   },
-  "homepage": "https://github.com/mamuso/figma-designdoc#readme"
+  "homepage": "https://github.com/mamuso/figma-designdoc#readme",
+  "dependencies": {
+    "node-fetch": "^2.2.0"
+  }
 }

@@ -6,5 +6,7 @@ const jsonConfig = JSON.parse(fs.readFileSync("config.json"));
 
 // Looping documents
 for (var doc of jsonConfig.documents) {
-  console.log(figma.getDocument(doc, jsonConfig.figmaToken));
+  figma.getDocument(doc, jsonConfig.figmaToken).then(figmadoc => {
+    console.log(figmadoc);
+  });
 }
