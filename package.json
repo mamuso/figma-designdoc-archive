@@ -2,9 +2,9 @@
   "name": "figma-designdoc",
   "version": "1.0.0",
   "description": "Exports a simple website using a bunch of conventions and a Figma document as the structure",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "parseFigma": "node tasks/parse-figma.js",
+    "build": "npm install && npm run parseFigma"
   },
   "repository": {
     "type": "git",
