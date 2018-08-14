@@ -1,8 +1,8 @@
 source "https://rubygems.org"
 
 gem 'dotenv-rails', groups: [:development, :test]
+gem "jekyll"
 
-gem "github-pages", group: :jekyll_plugins
 gem "minima", "~> 2.0"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

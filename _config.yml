@@ -2,8 +2,13 @@
 ## Figma configuration
 # -----------------------------------------------------------
 
-# I highly recommend to add your figma personal token in a config.env file
-# figmatoken: xxxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+# Adding your figma personal token to a .env file as FIGMATOKEN is highly recommended
+# Values in the .env file take precedence over the figma token here
+figmaconfig:
+  token: xxxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+  scale: 2
+  documents:
+    - aPDeXozOjVEEBVnRGP3gsm5B
 
 # -----------------------------------------------------------
 ## Jekyll configuration

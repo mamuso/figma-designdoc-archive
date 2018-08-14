@@ -1,4 +1,4 @@
 _site
 .sass-cache
 .jekyll-metadata
-config.env
+.env
