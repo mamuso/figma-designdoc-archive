@@ -1,6 +1,8 @@
 source "https://rubygems.org"
 
 gem 'dotenv-rails', groups: [:development, :test]
+gem "activesupport"
+
 gem "jekyll"
 
 gem "minima", "~> 2.0"

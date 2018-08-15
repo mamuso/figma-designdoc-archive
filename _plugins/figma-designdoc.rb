@@ -1,7 +1,8 @@
+require 'dotenv'
+require 'active_support/core_ext/string'
 require 'net/http'
 require 'uri'
 require 'json'
-require 'dotenv'
 
 class FigmaDesigndoc
   def initialize(site)
@@ -50,7 +51,7 @@ class FigmaDesigndoc
     
     # let's build this
     frames.each do |frame|
-      self.getImage(doc, frame)
+      self.getImage(doc, page["name"], frame)
     end
 
   end
@@ -82,7 +83,7 @@ class FigmaDesigndoc
   end
 
   # Download the canvas as an image
-  def getImage(doc, canvas)
+  def getImage(doc, pagename, canvas)
 
     uri = URI.parse("https://api.figma.com/v1/images/#{doc}?ids=#{canvas["id"]}&scale=#{@figmascale}&format=#{@figmaformat}")
     request = Net::HTTP::Get.new(uri)
@@ -98,15 +99,21 @@ class FigmaDesigndoc
 
     response = JSON.parse response.body
 
+    # path/pagename-canvasname-canvaid-docid.format
+
     # Download the image, return the name
+    filename = "#{pagename.parameterize}-#{canvas["name"].parameterize}-#{doc.parameterize}.#{@figmaformat}"
+
     uri = URI.parse(response["images"][canvas["id"]])
     request = Net::HTTP::Get.new(uri)
     response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
       resp = http.get(uri.path)
-      open("test.#{@figmaformat}", "wb") { |file|
+      open("designdoc/assets/#{filename}", "wb") { |file|
         file.write(resp.body)
       }
     end
+    
+    filename
 
   end
 

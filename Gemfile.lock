@@ -118,6 +118,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport
   dotenv-rails
   jekyll
   minima (~> 2.0)
