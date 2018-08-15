@@ -11,6 +11,7 @@ class FigmaDesigndoc
     @figmatoken = ENV['FIGMATOKEN'] ? ENV['FIGMATOKEN'] : site.config["figmaconfig"]["token"]
     @figmadocuments = site.config["figmaconfig"]["documents"]
     @figmascale = site.config["figmaconfig"]["scale"]
+    @figmaformat = site.config["figmaconfig"]["format"]
   end
 
   def fetch
@@ -21,14 +22,14 @@ class FigmaDesigndoc
 
       # Let's generate a markdow per page
       pages.each do |page|
-        self.writeMarkdown(page) if parseElement?(page["name"])
+        self.writeMarkdown(doc, page) if parseElement?(page["name"])
       end
 
     end
   end
 
   # write a markdow document for each page
-  def writeMarkdown(page)
+  def writeMarkdown(doc, page)
     layers = page["children"].reverse
 
     # Do we have a preface?
@@ -37,14 +38,19 @@ class FigmaDesigndoc
     end
     # preface["characters"]
 
+    # Let's get the text layers
+    text = layers.select do |layer|
+      layer["type"] === "TEXT"
+    end
+
     # Let's get only the frames
     frames = layers.select do |layer|
       layer["type"] === "FRAME"
     end
     
-    # Let's get the text layers
-    text = layers.select do |layer|
-      layer["type"] === "TEXT"
+    # let's build this
+    frames.each do |frame|
+      self.getImage(doc, frame)
     end
 
   end
@@ -75,7 +81,37 @@ class FigmaDesigndoc
     return response.body
   end
 
+  # Download the canvas as an image
+  def getImage(doc, canvas)
+
+    uri = URI.parse("https://api.figma.com/v1/images/#{doc}?ids=#{canvas["id"]}&scale=#{@figmascale}&format=#{@figmaformat}")
+    request = Net::HTTP::Get.new(uri)
+    request["X-Figma-Token"] = @figmatoken
+
+    req_options = {
+      use_ssl: uri.scheme == "https",
+    }
+
+    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      http.request(request)
+    end
+
+    response = JSON.parse response.body
+
+    # Download the image, return the name
+    uri = URI.parse(response["images"][canvas["id"]])
+    request = Net::HTTP::Get.new(uri)
+    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      resp = http.get(uri.path)
+      open("test.#{@figmaformat}", "wb") { |file|
+        file.write(resp.body)
+      }
+    end
+
+  end
+
 end
+
 
 # Generate everything we need after initializing the site
 Jekyll::Hooks.register :site, :after_init do |site|
