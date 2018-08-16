@@ -5,18 +5,20 @@ layout: default
 <article>
   <header>
     {% if page.title %}
-    <h1>{{ page.title }}</h1>
-    {% endif %}
-
-    {% if page.tags %}
-      {% assign tags = page.tags  | split: "," %}
-    <ul class="page-tags">
+    <h1>
+      {{ page.title }}
+      
+      {% if page.tags %}
+        {% assign tags = page.tags  | split: "," %}
         {% for tag in tags %}
           {% assign tagid = tag | downcase | replace: " ", "" %}
-          <li class="tag {{ tagid }}">{{ tag }}</li>
+          <span class="tag {{ tagid }}">{{ tag }}</span>
         {% endfor %}
-      </ul>
+      {% endif %}
+
+    </h1>
     {% endif %}
+
 
     {% if page.summary %}
     <div class='page-summary' markdown="1">{{ page.summary | markdownify }}</div>

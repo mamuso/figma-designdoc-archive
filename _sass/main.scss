@@ -1,1 +1,11 @@
 @charset "utf-8";
+
+body {
+    font-family: $base-font-family;
+}
+
+.page {
+    .page-content {
+        img { zoom: $zoombase; }
+    }
+}
