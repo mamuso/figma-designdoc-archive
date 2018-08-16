@@ -51,7 +51,7 @@ class FigmaDesigndoc
     preface = layers.select do |layer|
       layer["type"] == "TEXT" && layer["name"] == "_preface.md"
     end
-    p preface.size
+
     preface = preface.size > 0 ? preface.first["characters"] : nil
 
     # Let's get the text layers
@@ -70,7 +70,7 @@ class FigmaDesigndoc
       fimage = self.getFrameImage(doc, page["name"], frame)
       ftext = self.getFrameText(text, frame["name"])
 
-      blocks.push([ftitle, fimage, ftext])
+      blocks.push([ftitle, "/#{@assetpath}/#{fimage}", ftext])
     end
 
     # Export markdown from erb template
