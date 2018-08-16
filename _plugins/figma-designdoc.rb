@@ -47,12 +47,12 @@ class FigmaDesigndoc
     pagetitle = page["name"]
     blocks = []
 
-    # Do we have a preface?
-    preface = layers.select do |layer|
-      layer["type"] == "TEXT" && layer["name"] == "_preface.md"
+    # Do we have a summare?
+    summary = layers.select do |layer|
+      layer["type"] == "TEXT" && layer["name"] == "_summary.md"
     end
 
-    preface = preface.size > 0 ? preface.first["characters"] : nil
+    summary = summary.size > 0 ? summary.first["characters"] : nil
 
     # Let's get the text layers
     text = layers.select do |layer|

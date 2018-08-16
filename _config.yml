@@ -27,7 +27,6 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Jekyll Build settings
 markdown: kramdown
-theme: minima
 
 # Exclude from processing.
 exclude:
