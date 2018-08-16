@@ -49,13 +49,6 @@ class FigmaDesigndoc
     pagetitle = page["name"]
     blocks = []
 
-    # Do we have a summare?
-    summary = layers.select do |layer|
-      layer["type"] == "TEXT" && layer["name"] == "_summary.md"
-    end
-
-    summary = summary.size > 0 ? summary.first["characters"] : nil
-
     # Let's get the text layers
     text = layers.select do |layer|
       layer["type"] === "TEXT"
@@ -75,6 +68,22 @@ class FigmaDesigndoc
       blocks.push([ftitle, "/#{@assetpath}/#{fimage}", ftext])
     end
 
+
+    # Do we have a summary?
+    summary = text.select do |layer|
+      layer["name"] == "_summary.md"
+    end
+
+    summary = summary.size > 0 ? summary.first["characters"] : nil
+
+    # Do we have a tags?
+    tags = text.select do |layer|
+      layer["name"] == "_tags"
+    end
+
+    tags = tags.size > 0 ? tags.first["characters"] : nil
+
+    
     # Export markdown from erb template
     filename = "#{doc["document"].parameterize}-#{pagetitle.parameterize}"
     template = File.read('_plugins/figma-template.md.erb')

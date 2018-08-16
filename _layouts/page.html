@@ -1,28 +1,30 @@
 ---
 layout: default
 ---
-<div class="post">
+<div class="page">
 <article>
   <header>
-    <div class="post-meta">
-      <time datetime="{{ page.date | date_to_xmlschema }}">
-      {%- assign date_format = date_format | default: "%B %-d, %Y" -%}
-      {{ page.date | date: date_format }}
-      </time>
-    </div>
-
     {% if page.title %}
     <h1>{{ page.title }}</h1>
     {% endif %}
-  
+
+    {% if page.tags %}
+      {% assign tags = page.tags  | split: "," %}
+    <ul class="page-tags">
+        {% for tag in tags %}
+          {% assign tagid = tag | downcase | replace: " ", "" %}
+          <li class="tag {{ tagid }}">{{ tag }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
     {% if page.summary %}
-    <div class='post-summary' markdown="1">{{ page.summary | markdownify }}</div>
+    <div class='page-summary' markdown="1">{{ page.summary | markdownify }}</div>
     {% endif %}
   </header>
 
-  <div class="post-content">
+  <div class="page-content">
     {{ content }}
   </div>
-
 </article>
 </div>

@@ -1,7 +1,9 @@
 ---
-layout: post
+layout: page
 title: <%= pagetitle %>
+id: <%= filename %>
 <%= "summary: #{summary}" if !summary.blank? %>
+<%= "tags: #{tags}" if !tags.blank? %>
 ---
 
 <% blocks.each do |block| %>

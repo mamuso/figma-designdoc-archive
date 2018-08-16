@@ -1,10 +1,12 @@
-<ul class="page-navigation">
-<% @structure.each do |category| %>
-  <%= category[0] %>
-  <% category[1].each do |item| %>
-    <li>
-      <a href="/<%= @pagespath %>/<%= item[1] %>.html"><%= item[0] %></a>
-    </li>
+<nav id="nav" role="navigation">
+  <% @structure.each do |category| %>
+    <%= category[0] %>
+    <ul class="page-navigation">
+    <% category[1].each do |item| %>
+      <li class='<%= item[1] %> {% if page.id == '<%= item[1] %>' %} active{% endif%}'>
+        <a href="/<%= @pagespath %>/<%= item[1] %>.html"><%= item[0] %></a>
+      </li>
+    <% end %>
+    </ul>
   <% end %>
-<% end %>
-</ul>
+</nav>
