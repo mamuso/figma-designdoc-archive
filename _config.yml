@@ -8,8 +8,10 @@ figmaconfig:
   token: xxxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   scale: 2
   format: png
+  # categories: [Foundation, Components]
   documents:
-    - aPDeXozOjVEEBVnRGP3gsm5B
+    - document: aPDeXozOjVEEBVnRGP3gsm5B
+      category: Components
 
 # -----------------------------------------------------------
 ## Jekyll configuration
@@ -26,8 +28,6 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 # Jekyll Build settings
 markdown: kramdown
 theme: minima
-plugins:
-  - jekyll-feed
 
 # Exclude from processing.
 exclude:

@@ -17,9 +17,13 @@ class FigmaDesigndoc
     
     @assetpath = "designdoc/assets"
     @pagespath = "designdoc/pages"
+
+    @structure = {}
   end
 
   def fetch
+    self.purgeFiles
+
     @figmadocuments.each do |doc|
 
       content = JSON.parse self.getDoc(doc)
@@ -27,7 +31,10 @@ class FigmaDesigndoc
 
       # Let's generate a markdow per page
       pages.each do |page|
-        self.writeMarkdown(doc, page) if parseElement?(page["name"])
+        if parseElement?(page["name"])
+          item = self.writeMarkdown(doc, page)
+          (@structure["#{doc["category"]}"] ||= []) << item
+        end
       end
 
     end
@@ -35,8 +42,6 @@ class FigmaDesigndoc
 
   # write a markdow document for each page
   def writeMarkdown(doc, page)
-    
-    self.purgeDocs
 
     layers = page["children"].reverse
     pagetitle = page["name"]
@@ -44,9 +49,9 @@ class FigmaDesigndoc
 
     # Do we have a preface?
     preface = layers.select do |layer|
-      layer["type"] == "TEXT"
+      layer["type"] == "TEXT" && layer["name"] == "_preface.md"
     end
-
+    p preface.size
     preface = preface.size > 0 ? preface.first["characters"] : nil
 
     # Let's get the text layers
@@ -69,14 +74,16 @@ class FigmaDesigndoc
     end
 
     # Export markdown from erb template
-    filename = "#{doc.parameterize}-#{pagetitle.parameterize}.md"
+    filename = "#{doc["document"].parameterize}-#{pagetitle.parameterize}"
     template = File.read('_plugins/figma-template.md.erb')
     result = ERB.new(template).result(binding)
 
-    open("#{@pagespath}/#{filename}", "wb") { |file|
-        file.write(result)
-        file.close
-      }
+    open("#{@pagespath}/#{filename}.md", "wb") { |file|
+      file.write(result)
+      file.close
+    }
+
+    [pagetitle, filename]
   end
 
   # decidign if we should parse an element or not
@@ -91,7 +98,7 @@ class FigmaDesigndoc
 
   # get the json of a given doc
   def getDoc(doc)
-    uri = URI.parse("https://api.figma.com/v1/files/#{doc}")
+    uri = URI.parse("https://api.figma.com/v1/files/#{doc["document"]}")
     request = Net::HTTP::Get.new(uri)
     request["X-Figma-Token"] = @figmatoken
 
@@ -109,7 +116,7 @@ class FigmaDesigndoc
   # Download the canvas as an image
   def getFrameImage(doc, pagename, canvas)
 
-    uri = URI.parse("https://api.figma.com/v1/images/#{doc}?ids=#{canvas["id"]}&scale=#{@figmascale}&format=#{@figmaformat}")
+    uri = URI.parse("https://api.figma.com/v1/images/#{doc["document"]}?ids=#{canvas["id"]}&scale=#{@figmascale}&format=#{@figmaformat}")
     request = Net::HTTP::Get.new(uri)
     request["X-Figma-Token"] = @figmatoken
 
@@ -124,7 +131,7 @@ class FigmaDesigndoc
     response = JSON.parse response.body
 
     # Download the image, return the name
-    filename = "#{pagename.parameterize}-#{canvas["name"].parameterize}-#{canvas["id"].parameterize}-#{doc.parameterize}.#{@figmaformat}"
+    filename = "#{pagename.parameterize}-#{canvas["name"].parameterize}-#{canvas["id"].parameterize}-#{doc["document"].parameterize}.#{@figmaformat}"
 
     uri = URI.parse(response["images"][canvas["id"]])
     request = Net::HTTP::Get.new(uri)
@@ -148,8 +155,8 @@ class FigmaDesigndoc
     ftext.size > 0 ? ftext.first["characters"] : nil
   end
 
-  # Remove docs for regeneration
-  def purgeDocs
+  # Remove files for regeneration
+  def purgeFiles
     Dir["#{@pagespath}/*"].reject{ |f| f["#{@pagespath}/.keep"] }.each do |filename|
       File.delete filename
     end
