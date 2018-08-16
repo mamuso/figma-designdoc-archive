@@ -4,7 +4,12 @@
     <ul class="page-navigation">
     <% category[1].each do |item| %>
       <li class='<%= item[1] %> {% if page.id == '<%= item[1] %>' %} active{% endif%}'>
-        <a href="/<%= @pagespath %>/<%= item[1] %>.html"><%= item[0] %></a>
+        <a href="/<%= @pagespath %>/<%= item[1] %>.html">
+          <%= item[0] %>
+          <% if !item[2].blank? %>
+            <span class='tag <%= item[2].downcase.sub(" ", "") %>'><%= item[2] %></span>
+          <% end %>
+        </a>
       </li>
     <% end %>
     </ul>

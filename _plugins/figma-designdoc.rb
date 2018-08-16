@@ -82,6 +82,7 @@ class FigmaDesigndoc
     end
 
     tags = tags.size > 0 ? tags.first["characters"] : nil
+    menutag = !tags.nil? ? tags.split(",").first : nil
 
     
     # Export markdown from erb template
@@ -94,7 +95,7 @@ class FigmaDesigndoc
       file.close
     }
 
-    [pagetitle, filename]
+    [pagetitle, filename, menutag]
   end
 
   # decidign if we should parse an element or not
