@@ -1,0 +1,10 @@
+<ul class="page-navigation">
+<% @structure.each do |category| %>
+  <%= category[0] %>
+  <% category[1].each do |item| %>
+    <li>
+      <a href="/<%= @pagespath %>/<%= item[1] %>.html"><%= item[0] %></a>
+    </li>
+  <% end %>
+<% end %>
+</ul>

@@ -38,6 +38,8 @@ class FigmaDesigndoc
       end
 
     end
+
+    self.buildMenu
   end
 
   # write a markdow document for each page
@@ -153,6 +155,18 @@ class FigmaDesigndoc
     end
 
     ftext.size > 0 ? ftext.first["characters"] : nil
+  end
+
+  # Build the menu templates
+  def buildMenu
+    template = File.read('_plugins/figma-menu.html.erb')
+    result = ERB.new(template).result(binding)
+
+    open("_includes/figma-menu.html", "wb") { |file|
+      file.write(result)
+      file.close
+    }
+
   end
 
   # Remove files for regeneration
