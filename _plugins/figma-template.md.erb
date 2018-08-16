@@ -1,0 +1,12 @@
+---
+layout: post
+title: <%= pagetitle %>
+<%= "preface: #{preface}" if !preface.blank? %>
+---
+
+<% blocks.each do |block| %>
+<%= "## #{block[0]}" if !block[0].blank? %>
+<%= "![#{block[0]}](#{block[1]})" %>
+
+<%= block[2] %>
+<% end %>
