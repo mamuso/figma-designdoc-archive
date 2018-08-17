@@ -5,22 +5,29 @@
 {% assign zoombase = 100 | divided_by: site.figmaconfig.scale %}
 $zoombase: {{zoombase}}%;
 
+
 // Defaults
 $base-font-family:  -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !default;
-$base-font-size:    1.5rem    !default;
+$base-font-size:    1.4rem    !default;
 $base-font-weight:  400       !default;
 $base-line-height:  1         !default;
 $base-max-width:    120.0rem  !default;
+$base-radius:       .3rem     !default;
 
 $text-color:        #000      !default;
-$background-color:  #FFF      !default;
 $brand-color:       #0078D7   !default;
+$background-color:  #FFF      !default;
+$background-nav:    #005a9e   !default;
+
+$font-size-m:       1.5rem    !default;
+$font-size-s:       1.1rem    !default;
 
 
 // Reset
 * { padding: 0; margin: 0; -moz-box-sizing: border-box; box-sizing: border-box; }
 html { font-size: 62.5%; }
 body { font-family: $base-font-family; }
+
 
 // Basic styling
 body {
@@ -37,10 +44,17 @@ body {
   font-kerning: normal;
   scroll-behavior: smooth;
 }
-::selection, ::-moz-selection {
+
+::selection {
   background: $brand-color;
   color: #FFF;
 }
+
+::-moz-selection {
+  background: $brand-color;
+  color: #FFF;
+}
+
 
 // Import partials
 @import "main";
