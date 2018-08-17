@@ -10,14 +10,16 @@ $base-font-weight:  400       !default;
 $base-line-height:  1         !default;
 $base-max-width:    120.0rem  !default;
 $base-radius:       .3rem     !default;
+$base-nav-width:    24rem    !default;
 
-$text-color:        #000      !default;
+$text-color:        #333      !default;
 $brand-color:       #0078D7   !default;
+$secondary-color:   #A6A6A6   !default;
 $background-color:  #FFF      !default;
-$background-nav:    #005a9e   !default;
+$background-nav:    #FFF      !default;
 
-$font-size-m:       1.5rem    !default;
-$font-size-s:       1.1rem    !default;
+$font-size-m:       1.3rem    !default;
+$font-size-s:       1.0rem    !default;
 
 
 // Reset
