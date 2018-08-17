@@ -14,7 +14,7 @@ If you want to see an example, you can build this website using this Figma files
 ## Setting it up
 
 1. Fork this repository
-2. Get your [Figma Personal Access Token](https://www.figma.com/developers/docs#auth) and put it a .env file as FIGMATOKEN=xxxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx or, if you don't mind to expose your token 🤔, edit it on _config.yml
+2. Get your [Figma Personal Access Token](https://www.figma.com/developers/docs#auth) and put it in a .env file as FIGMATOKEN=xxxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx or, if you don't mind to expose your token 🤔, edit it on _config.yml
 3. Edit the `_config.yml` file
 
 ## How it works
