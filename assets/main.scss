@@ -1,8 +1,46 @@
 ---
 ---
-$base-font-family:   -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !default;
 
+// Support for different image densities
 {% assign zoombase = 100 | divided_by: site.figmaconfig.scale %}
 $zoombase: {{zoombase}}%;
 
+// Defaults
+$base-font-family:  -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !default;
+$base-font-size:    1.5rem    !default;
+$base-font-weight:  400       !default;
+$base-line-height:  1         !default;
+$base-max-width:    120.0rem  !default;
+
+$text-color:        #000      !default;
+$background-color:  #FFF      !default;
+$brand-color:       #0078D7   !default;
+
+
+// Reset
+* { padding: 0; margin: 0; -moz-box-sizing: border-box; box-sizing: border-box; }
+html { font-size: 62.5%; }
+body { font-family: $base-font-family; }
+
+// Basic styling
+body {
+  font: $base-font-weight $base-font-size $base-font-family;
+  color: $text-color;
+  background-color: $background-color;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-feature-settings:  "kern" 1;
+      -moz-font-feature-settings: "kern" 1;
+        -o-font-feature-settings: "kern" 1;
+          font-feature-settings:  "kern" 1;
+  font-kerning: normal;
+  scroll-behavior: smooth;
+}
+::selection, ::-moz-selection {
+  background: $brand-color;
+  color: #FFF;
+}
+
+// Import partials
 @import "main";
