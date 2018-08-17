@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+
 <div class="page">
 <article>
   <header>
@@ -30,3 +31,14 @@ layout: default
   </div>
 </article>
 </div>
+
+<script type="text/javascript" src="{{ "/assets/js/anchor.min.js" | relative_url }}"></script>
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(event) {
+    anchors.options = {
+      placement: 'left',
+      class: 'anchor'
+    }
+    anchors.add('h2');
+  });
+</script>
