@@ -1,11 +1,53 @@
 @charset "utf-8";
 
-body {
-    font-family: $base-font-family;
-}
-
+// Page
 .page {
     .page-content {
         img { zoom: $zoombase; }
+    }
+}
+
+// Navigation
+#nav {
+    width: 24rem;
+    height: 100vh;
+    padding: 1.6rem;
+    color: rgba($color: #FFF, $alpha: .75);
+    background: $background-nav;
+    font-size: $font-size-m;
+    cursor: default;
+
+    .logo {
+        margin: .4rem .8rem 1.2rem;
+        margin-bottom: 3.2rem;
+        img {
+            height: 3.2rem;
+        }
+    }
+    .title {
+        display: block;
+        padding: .8rem .8rem .4rem;
+        margin-top: 1.6rem;
+        text-transform: uppercase;
+        font-size: $font-size-s;
+        font-weight: 700;
+        line-height: 1.6rem;
+        letter-spacing: -.06rem;
+    }
+    ul {
+        list-style: none;
+    }
+    a {
+        line-height: 3.6rem;
+        padding: 0 .8rem;
+        display: block;
+        text-decoration: none;
+        color: #FFF;
+        border-radius: $base-radius;
+        transition: padding .2s ease;
+        &:hover {
+            background: rgba(0, 0, 0, .15);
+            padding-left: 1.0rem;
+        }
     }
 }
