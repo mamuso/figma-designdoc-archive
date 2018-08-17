@@ -9,6 +9,7 @@
 
 // Navigation
 #nav {
+    float: left;
     width: 24rem;
     height: 100vh;
     padding: 1.6rem;
@@ -50,4 +51,8 @@
             padding-left: 1.0rem;
         }
     }
+}
+
+#content {
+    margin-left: 24rem
 }
