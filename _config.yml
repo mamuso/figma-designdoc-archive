@@ -9,6 +9,7 @@ figmaconfig:
   scale: 2
   format: png
   figmaurls: true
+  home: true
   documents:
     - document: aPDeXozOjVEEBVnRGP3gsm5B
       category: Components
