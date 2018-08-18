@@ -14,6 +14,7 @@ class FigmaDesigndoc
     @figmadocuments = site.config["figmaconfig"]["documents"]
     @figmascale = site.config["figmaconfig"]["scale"]
     @figmaformat = site.config["figmaconfig"]["format"]
+    @figmaurl = site.config["figmaconfig"]["figmaurls"]
     
     @assetpath = "designdoc/assets"
     @pagespath = "designdoc/pages"
@@ -46,6 +47,7 @@ class FigmaDesigndoc
   def writeMarkdown(doc, page)
 
     layers = page["children"].reverse
+    pageid = page["id"]
     pagetitle = page["name"]
     blocks = []
 
@@ -65,7 +67,14 @@ class FigmaDesigndoc
       fimage = self.getFrameImage(doc, page["name"], frame)
       ftext = self.getFrameText(text, frame["name"])
 
-      blocks.push([ftitle, "/#{@assetpath}/#{fimage}", ftext])
+      block = {
+        "title"     => ftitle,
+        "image" => "/#{@assetpath}/#{fimage['filename']}",
+        "figmaid"   => fimage['id'],
+        "text"      => ftext
+      }
+
+      blocks.push(block)
     end
 
 
@@ -86,7 +95,8 @@ class FigmaDesigndoc
 
     
     # Export markdown from erb template
-    filename = "#{doc["document"].parameterize}-#{pagetitle.parameterize}"
+    figmadoc = doc["document"]
+    filename = "#{figmadoc.parameterize}-#{pagetitle.parameterize}"
     template = File.read('_plugins/figma-template.md.erb')
     result = ERB.new(template).result(binding)
 
@@ -95,7 +105,11 @@ class FigmaDesigndoc
       file.close
     }
 
-    [pagetitle, filename, menutag]
+    {
+      "title"     => pagetitle,
+      "filename"  => filename, 
+      "tag"       => menutag
+    }
   end
 
   # decidign if we should parse an element or not
@@ -155,7 +169,10 @@ class FigmaDesigndoc
       }
     end
     
-    filename
+    {
+      "filename" => filename, 
+      "id" => canvas['id']
+    }
   end
 
   # Get the text associated with a frame
