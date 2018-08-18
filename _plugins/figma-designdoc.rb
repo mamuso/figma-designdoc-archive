@@ -67,7 +67,14 @@ class FigmaDesigndoc
       fimage = self.getFrameImage(doc, page["name"], frame)
       ftext = self.getFrameText(text, frame["name"])
 
-      blocks.push([ftitle, "/#{@assetpath}/#{fimage}", ftext])
+      block = {
+        "title"     => ftitle,
+        "image" => "/#{@assetpath}/#{fimage['filename']}",
+        "figmaid"   => fimage['id'],
+        "text"      => ftext
+      }
+
+      blocks.push(block)
     end
 
 
@@ -101,7 +108,7 @@ class FigmaDesigndoc
     {
       "title"     => pagetitle,
       "filename"  => filename, 
-      "tags"      => menutag
+      "tag"       => menutag
     }
   end
 

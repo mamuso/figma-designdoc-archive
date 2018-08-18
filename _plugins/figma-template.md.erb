@@ -6,10 +6,9 @@ id: <%= filename %>
 <%= "summary: #{summary}" if !summary.blank? %>
 <%= "tags: #{tags}" if !tags.blank? %>
 ---
-
 <% blocks.each do |block| %>
-<%= "## #{block[0]}" if !block[0].blank? %>
-<%= "![#{block[0]}](#{block[1]})" %>
+<%= "## #{block['title']}" if !block['title'].blank? %>
+<%= "<img src='#{block['image']}' alt='#{block['title']}' #{"data-figmaurl='https://www.figma.com/file/#{figmadoc}?node-id=#{block['figmaid']}'" if @figmalinks}/>" %>
 
-<%= block[2] %>
+<%= block['text'] %>
 <% end %>
