@@ -2,6 +2,7 @@
 layout: page
 title: <%= pagetitle %>
 id: <%= filename %>
+<% if @figmalinks %>figmalink: https://www.figma.com/file/<%= figmadoc %>?node-id=<%= pageid %><% end %>
 <%= "summary: #{summary}" if !summary.blank? %>
 <%= "tags: #{tags}" if !tags.blank? %>
 ---
