@@ -8,7 +8,7 @@ figmaconfig:
   token: xxxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
   scale: 2
   format: png
-  figmalinks: true
+  figmaurls: true
   documents:
     - document: aPDeXozOjVEEBVnRGP3gsm5B
       category: Components

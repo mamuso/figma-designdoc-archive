@@ -14,7 +14,7 @@ class FigmaDesigndoc
     @figmadocuments = site.config["figmaconfig"]["documents"]
     @figmascale = site.config["figmaconfig"]["scale"]
     @figmaformat = site.config["figmaconfig"]["format"]
-    @figmalinks = site.config["figmaconfig"]["figmalinks"]
+    @figmaurl = site.config["figmaconfig"]["figmaurls"]
     
     @assetpath = "designdoc/assets"
     @pagespath = "designdoc/pages"
