@@ -6,6 +6,8 @@ require 'json'
 require 'erb'
 
 class FigmaDesigndoc
+  attr_accessor :structure
+
   def initialize(site)
     Dotenv.load
 
@@ -139,6 +141,8 @@ class FigmaDesigndoc
     response.body
   end
 
+
+
   # Download the canvas as an image
   def getFrameImage(doc, pagename, canvas)
 
@@ -215,5 +219,8 @@ Jekyll::Hooks.register :site, :after_init do |site|
 
   figma = FigmaDesigndoc.new(site)
   figma.fetch
-
+  # writing the first page in the config
+  key, value = figma.structure.first
+  value = value.first["filename"]
+  site.config["firstpage"] = value
 end
