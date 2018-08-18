@@ -22,11 +22,18 @@ figmaconfig:
   # we recommend to store your figma token in a .env ignored file
   token: xxxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 
-  # scale corresponds with the scale parameter of https://www.figma.com/developers/docs#images-endpoint
-  # value: from 0.01 to 4. We recommend 2 for crispy images on retina displays
+  # scale: corresponds with the scale parameter on https://www.figma.com/developers/docs#images-endpoint
+  # value: from 0.01 to 4. 
   scale: 2
+
+  # format: corresponds with the format parameter on https://www.figma.com/developers/docs#images-endpoint
+  # value: png, jpg or svg
   format: png
+
+  # figmaurls: boolean. When set to true, we show a link to the figma document close to the page title 
+  # and a link to each frame rendered on the page
   figmaurls: true
+
   home: true
   documents:
     - document: aPDeXozOjVEEBVnRGP3gsm5B
