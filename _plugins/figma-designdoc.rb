@@ -58,7 +58,7 @@ class FigmaDesigndoc
 
     # Let's get only the frames
     frames = layers.select do |layer|
-      layer["type"] === "FRAME"
+      layer["type"] === "FRAME" and self.parseElement?(layer["name"])
     end
     
     # let's build this
