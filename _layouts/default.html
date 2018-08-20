@@ -7,6 +7,18 @@
   <div id="content">
     {{ content }}
   </div>
+
+  <!-- custom scrollbar on Windows -->
+  <script type="text/javascript" src="{{"/assets/js/perfect-scrollbar.min.js" | relative_url }}"></script>
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function (event) {
+      if (window.navigator.platform === "Win32") {
+        // initialize custom scroll bar
+        const customScrollbar = new PerfectScrollbar('#nav');
+        window.addEventListener("resize", function () { customScrollbar.update() });
+      }
+    });
+  </script>
 </body>
 
 </html>
