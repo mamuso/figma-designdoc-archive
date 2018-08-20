@@ -27,7 +27,22 @@
             height: 3.2rem;
         }
         a{
+            position: relative;
             display: inline-block;
+            transition-property: all;
+            &:hover {
+                background: rgba($color: #5D9CFB, $alpha: .2);
+                transform: rotateZ(-4deg);
+                border-radius: 16px;
+                animation: logoAnimation 8s ease infinite;
+                animation-fill-mode: forwards;
+                animation-direction: alternate;
+            }
+            @keyframes logoAnimation {
+                to {
+                    filter: hue-rotate(1440deg);
+                }
+            }
         }
     }
     .title {
