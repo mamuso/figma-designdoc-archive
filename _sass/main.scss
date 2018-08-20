@@ -62,21 +62,6 @@
             transform: translateX(.1rem);
         }
     }
-    // a:before {
-    //     content: "";
-    //     position: absolute;
-    //     top: 0;
-    //     bottom: 0;
-    //     right: -1.7rem;
-    //     width: 0;
-    //     background: rgba($color: $text-color, $alpha: .4);
-    //     transition: none;
-    //     border-radius: 1px;
-    // }
-    // a:hover:before {
-    //     width: .1rem;
-    //     transition: all .2s ease-in-out;    
-    // }
 }
 
 // Content
@@ -125,4 +110,64 @@
 @keyframes content-animation {
     from { transform: translateY(2px);}
     to { transform: translateY(0); }
+}
+
+// Custom scrollbar on Windows
+.ps {
+  overflow: hidden !important;
+  overflow-anchor: none;
+  -ms-overflow-style: none;
+  touch-action: auto;
+  -ms-touch-action: auto;
+}
+.ps__rail-y {
+  display: none;
+  opacity: 0;
+  transition: background-color 0.2s linear, opacity 0.2s linear;
+  -webkit-transition: background-color 0.2s linear, opacity 0.2s linear;
+  width: 15px;
+  right: 0;
+  position: absolute;
+}
+.ps--active-y > .ps__rail-y {
+  display: block;
+  background-color: transparent;
+  left: auto !important;
+}
+.ps:hover > .ps__rail-y,
+.ps--focus > .ps__rail-y,
+.ps--scrolling-y > .ps__rail-y {
+  opacity: 0.6;
+}
+.ps .ps__rail-y:hover,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-y.ps--clicking {
+  background-color: #eee;
+  opacity: 0.9;
+}
+.ps__thumb-y {
+  background-color: rgba($color: #000, $alpha: .5);
+  border-radius: 7px;
+  transition: background-color 0.1s linear, width 0.1s ease-in-out;
+  -webkit-transition: background-color 0.1s linear, width 0.1s ease-in-out;
+  width: 7px;
+  right: 2px;
+  left: auto !important;
+  position: absolute;
+}
+.ps__rail-y:hover > .ps__thumb-y,
+.ps__rail-y:focus > .ps__thumb-y,
+.ps__rail-y.ps--clicking .ps__thumb-y {
+  background-color: rgba($color: #000, $alpha: .5);
+  width: 11px;
+}
+@supports (-ms-overflow-style: none) {
+  .ps {
+    overflow: auto !important;
   }
+}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .ps {
+    overflow: auto !important;
+  }
+}

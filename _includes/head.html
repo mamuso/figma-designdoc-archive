@@ -1,12 +1,16 @@
+{% if site.figmaconfig.home %}
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="icon" type="image/png" href="/assets/images/favicon.png">
-
   <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
-
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
 </head>
+{% elsif page.layout == 'home' %}
+<head>
+  <meta http-equiv="refresh" content="0; url=/designdoc/pages/{{site.firstpage}}.html" />
+</head>
+{% endif %}
