@@ -6,6 +6,8 @@ require 'json'
 require 'erb'
 
 class FigmaDesigndoc
+  attr_accessor :structure
+
   def initialize(site)
     Dotenv.load
 
@@ -14,6 +16,7 @@ class FigmaDesigndoc
     @figmadocuments = site.config["figmaconfig"]["documents"]
     @figmascale = site.config["figmaconfig"]["scale"]
     @figmaformat = site.config["figmaconfig"]["format"]
+    @figmaurl = site.config["figmaconfig"]["figmaurls"]
     
     @assetpath = "designdoc/assets"
     @pagespath = "designdoc/pages"
@@ -46,6 +49,7 @@ class FigmaDesigndoc
   def writeMarkdown(doc, page)
 
     layers = page["children"].reverse
+    pageid = page["id"]
     pagetitle = page["name"]
     blocks = []
 
@@ -56,7 +60,7 @@ class FigmaDesigndoc
 
     # Let's get only the frames
     frames = layers.select do |layer|
-      layer["type"] === "FRAME"
+      layer["type"] === "FRAME" and self.parseElement?(layer["name"])
     end
     
     # let's build this
@@ -65,7 +69,14 @@ class FigmaDesigndoc
       fimage = self.getFrameImage(doc, page["name"], frame)
       ftext = self.getFrameText(text, frame["name"])
 
-      blocks.push([ftitle, "/#{@assetpath}/#{fimage}", ftext])
+      block = {
+        "title"     => ftitle,
+        "image" => "/#{@assetpath}/#{fimage['filename']}",
+        "figmaid"   => fimage['id'],
+        "text"      => ftext
+      }
+
+      blocks.push(block)
     end
 
 
@@ -86,7 +97,8 @@ class FigmaDesigndoc
 
     
     # Export markdown from erb template
-    filename = "#{doc["document"].parameterize}-#{pagetitle.parameterize}"
+    figmadoc = doc["document"]
+    filename = "#{figmadoc.parameterize}-#{pagetitle.parameterize}"
     template = File.read('_plugins/figma-template.md.erb')
     result = ERB.new(template).result(binding)
 
@@ -95,7 +107,11 @@ class FigmaDesigndoc
       file.close
     }
 
-    [pagetitle, filename, menutag]
+    {
+      "title"     => pagetitle,
+      "filename"  => filename, 
+      "tag"       => menutag
+    }
   end
 
   # decidign if we should parse an element or not
@@ -124,6 +140,8 @@ class FigmaDesigndoc
     
     response.body
   end
+
+
 
   # Download the canvas as an image
   def getFrameImage(doc, pagename, canvas)
@@ -155,7 +173,10 @@ class FigmaDesigndoc
       }
     end
     
-    filename
+    {
+      "filename" => filename, 
+      "id" => canvas['id']
+    }
   end
 
   # Get the text associated with a frame
@@ -198,5 +219,8 @@ Jekyll::Hooks.register :site, :after_init do |site|
 
   figma = FigmaDesigndoc.new(site)
   figma.fetch
-
+  # writing the first page in the config
+  key, value = figma.structure.first
+  value = value.first["filename"]
+  site.config["firstpage"] = value
 end
