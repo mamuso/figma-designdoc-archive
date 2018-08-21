@@ -4,6 +4,7 @@ require 'net/http'
 require 'uri'
 require 'json'
 require 'erb'
+require 'rufus-scheduler'
 
 class FigmaDesigndoc
   attr_accessor :structure
@@ -17,19 +18,31 @@ class FigmaDesigndoc
     @figmascale = site.config["figmaconfig"]["scale"]
     @figmaformat = site.config["figmaconfig"]["format"]
     @figmaurl = site.config["figmaconfig"]["figmaurls"]
-    
+
     @assetpath = "designdoc/assets"
     @pagespath = "designdoc/pages"
 
     @structure = {}
+    site.config["figmaconfig"]["updated"] ||= {}
   end
 
-  def fetch
-    self.purgeFiles
+  def fetch(site)
+    # Purge only the first time
+    p site.config["figmaconfig"]["updated"]
+    p site.config["figmaconfig"]["updated"].blank?
+    self.purgeFiles if site.config["figmaconfig"]["updated"].blank?
 
     @figmadocuments.each do |doc|
 
       content = JSON.parse self.getDoc(doc)
+      raise StandardError.new(content["err"]) unless content["err"].nil?
+
+      # Let's skip if we are polling the doc and we haven't changed anything
+      p site.config["figmaconfig"]["updated"]["#{doc["document"]}"]
+      p site.config["figmaconfig"]["updated"]["#{doc["document"]}"] == content["lastModified"]
+      next if site.config["figmaconfig"]["updated"]["#{doc["document"]}"] == content["lastModified"]
+      site.config["figmaconfig"]["updated"]["#{doc["document"]}"] = content["lastModified"]
+
       pages = content["document"]["children"]
 
       # Let's generate a markdow per page
@@ -62,7 +75,7 @@ class FigmaDesigndoc
     frames = layers.select do |layer|
       layer["type"] === "FRAME" and self.parseElement?(layer["name"])
     end
-    
+
     # let's build this
     frames.each do |frame|
       ftitle = self.showTitle?(frame["name"]) ? frame["name"] : nil
@@ -95,7 +108,7 @@ class FigmaDesigndoc
     tags = tags.size > 0 ? tags.first["characters"] : nil
     menutag = !tags.nil? ? tags.split(",").first : nil
 
-    
+
     # Export markdown from erb template
     figmadoc = doc["document"]
     filename = "#{figmadoc.parameterize}-#{pagetitle.parameterize}"
@@ -109,7 +122,7 @@ class FigmaDesigndoc
 
     {
       "title"     => pagetitle,
-      "filename"  => filename, 
+      "filename"  => filename,
       "tag"       => menutag
     }
   end
@@ -137,7 +150,7 @@ class FigmaDesigndoc
     response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
       http.request(request)
     end
-    
+
     response.body
   end
 
@@ -172,9 +185,9 @@ class FigmaDesigndoc
         file.close
       }
     end
-    
+
     {
-      "filename" => filename, 
+      "filename" => filename,
       "id" => canvas['id']
     }
   end
@@ -214,13 +227,23 @@ class FigmaDesigndoc
 end
 
 
-# Generate everything we need after initializing the site
-Jekyll::Hooks.register :site, :after_init do |site|
-
+def fetchContent(site)
   figma = FigmaDesigndoc.new(site)
-  figma.fetch
+  figma.fetch(site)
   # writing the first page in the config
   key, value = figma.structure.first
   value = value.first["filename"]
   site.config["firstpage"] = value
+end
+
+# Generate everything we need after initializing the site
+Jekyll::Hooks.register :site, :after_init do |site|
+  fetchContent(site)
+  if Jekyll::env == "figma-development"
+    scheduler = Rufus::Scheduler.new
+    scheduler.every '30s' do
+      fetchContent(site)
+      p "wadus"
+    end
+  end
 end
