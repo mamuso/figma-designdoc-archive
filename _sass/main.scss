@@ -60,6 +60,55 @@
             color: #000;
             background: rgba(rgba(0, 0, 0, .05), .05);
             transform: translateX(.1rem);
+
+            .tag:after {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            .tag {
+                background: transparent;
+            }
+        }
+        .tag {
+            width: .6rem;
+            height: .6rem;
+            position: relative;
+            left: 0;
+            border-radius: .8rem;
+            display: inline-block;
+            text-indent: -999px;
+            background: #5F9EFB;
+            position: relative;
+            transition: all .05s ease;
+            &:after {
+                content: attr(tag);
+                display: block;
+                padding: .1rem .2rem;
+                left: 0;
+                top: -.4rem;
+                background: inherit;
+                color: #FFF;
+                position: absolute;
+                text-transform: uppercase;
+                text-indent: 0;
+                font-size: 1rem;
+                border-radius: .3rem;
+                font-weight: 600;
+                font-size: .9rem;
+                letter-spacing: -.03rem;
+                opacity: 0;
+                transition: all .15s ease;
+                transform: translateX(-.1rem);
+            }
+        }
+        .tag.inprogress {
+            background: #5F9EFB;
+        }
+        .tag.new {
+            background: #3DB843;
+        }
+        .tag.shiny {
+            background: #550F5B;
         }
     }
 }
