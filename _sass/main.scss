@@ -32,7 +32,7 @@
             transition-property: all;
             &:hover {
                 background: rgba($color: #5D9CFB, $alpha: .2);
-                transform: rotateZ(-4deg);
+                transform: rotateZ(-2deg);
                 border-radius: 16px;
                 animation: logoAnimation 8s ease infinite;
                 animation-fill-mode: forwards;
