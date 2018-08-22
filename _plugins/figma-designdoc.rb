@@ -28,8 +28,6 @@ class FigmaDesigndoc
 
   def fetch(site)
     # Purge only the first time
-    p site.config["figmaconfig"]["updated"]
-    p site.config["figmaconfig"]["updated"].blank?
     self.purgeFiles if site.config["figmaconfig"]["updated"].blank?
 
     @figmadocuments.each do |doc|
@@ -38,9 +36,7 @@ class FigmaDesigndoc
       raise StandardError.new(content["err"]) unless content["err"].nil?
 
       # Let's skip if we are polling the doc and we haven't changed anything
-      p site.config["figmaconfig"]["updated"]["#{doc["document"]}"]
-      p site.config["figmaconfig"]["updated"]["#{doc["document"]}"] == content["lastModified"]
-      next if site.config["figmaconfig"]["updated"]["#{doc["document"]}"] == content["lastModified"]
+      skip = site.config["figmaconfig"]["updated"]["#{doc["document"]}"] == content["lastModified"] ? true: false
       site.config["figmaconfig"]["updated"]["#{doc["document"]}"] = content["lastModified"]
 
       pages = content["document"]["children"]
@@ -48,7 +44,7 @@ class FigmaDesigndoc
       # Let's generate a markdow per page
       pages.each do |page|
         if parseElement?(page["name"])
-          item = self.writeMarkdown(doc, page)
+          item = self.writeMarkdown(doc, page, skip)
           (@structure["#{doc["category"]}"] ||= []) << item
         end
       end
@@ -59,66 +55,68 @@ class FigmaDesigndoc
   end
 
   # write a markdow document for each page
-  def writeMarkdown(doc, page)
+  def writeMarkdown(doc, page, skip)
 
     layers = page["children"].reverse
     pageid = page["id"]
     pagetitle = page["name"]
-    blocks = []
-
-    # Let's get the text layers
-    text = layers.select do |layer|
-      layer["type"] === "TEXT"
-    end
-
-    # Let's get only the frames
-    frames = layers.select do |layer|
-      layer["type"] === "FRAME" and self.parseElement?(layer["name"])
-    end
-
-    # let's build this
-    frames.each do |frame|
-      ftitle = self.showTitle?(frame["name"]) ? frame["name"] : nil
-      fimage = self.getFrameImage(doc, page["name"], frame)
-      ftext = self.getFrameText(text, frame["name"])
-
-      block = {
-        "title"     => ftitle,
-        "image" => "/#{@assetpath}/#{fimage['filename']}",
-        "figmaid"   => fimage['id'],
-        "text"      => ftext
-      }
-
-      blocks.push(block)
-    end
-
-
-    # Do we have a summary?
-    summary = text.select do |layer|
-      layer["name"] == "_summary.md"
-    end
-
-    summary = summary.size > 0 ? summary.first["characters"] : nil
-
-    # Do we have a tags?
-    tags = text.select do |layer|
-      layer["name"] == "_tags"
-    end
-
-    tags = tags.size > 0 ? tags.first["characters"] : nil
-    menutag = !tags.nil? ? tags.split(",").first : nil
-
-
-    # Export markdown from erb template
     figmadoc = doc["document"]
     filename = "#{figmadoc.parameterize}-#{pagetitle.parameterize}"
-    template = File.read('_plugins/figma-template.md.erb')
-    result = ERB.new(template).result(binding)
+    blocks = []
 
-    open("#{@pagespath}/#{filename}.md", "wb") { |file|
-      file.write(result)
-      file.close
-    }
+    if(!skip)
+      # Let's get the text layers
+      text = layers.select do |layer|
+        layer["type"] === "TEXT"
+      end
+
+      # Let's get only the frames
+      frames = layers.select do |layer|
+        layer["type"] === "FRAME" and self.parseElement?(layer["name"])
+      end
+
+      # let's build this
+      frames.each do |frame|
+        ftitle = self.showTitle?(frame["name"]) ? frame["name"] : nil
+        fimage = self.getFrameImage(doc, page["name"], frame)
+        ftext = self.getFrameText(text, frame["name"])
+
+        block = {
+          "title"     => ftitle,
+          "image" => "/#{@assetpath}/#{fimage['filename']}",
+          "figmaid"   => fimage['id'],
+          "text"      => ftext
+        }
+
+        blocks.push(block)
+      end
+
+
+      # Do we have a summary?
+      summary = text.select do |layer|
+        layer["name"] == "_summary.md"
+      end
+
+      summary = summary.size > 0 ? summary.first["characters"] : nil
+
+      # Do we have a tags?
+      tags = text.select do |layer|
+        layer["name"] == "_tags"
+      end
+
+      tags = tags.size > 0 ? tags.first["characters"] : nil
+      menutag = !tags.nil? ? tags.split(",").first : nil
+
+
+      # Export markdown from erb template
+      template = File.read('_plugins/figma-template.md.erb')
+      result = ERB.new(template).result(binding)
+
+      open("#{@pagespath}/#{filename}.md", "wb") { |file|
+        file.write(result)
+        file.close
+      }
+    end
 
     {
       "title"     => pagetitle,
@@ -243,7 +241,6 @@ Jekyll::Hooks.register :site, :after_init do |site|
     scheduler = Rufus::Scheduler.new
     scheduler.every '30s' do
       fetchContent(site)
-      p "wadus"
     end
   end
 end
