@@ -13,6 +13,8 @@
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
 
   {% if site.figmaconfig.home == false %}
-  <meta http-equiv="refresh" content="0; url={{site.baseurl}}/designdoc/pages/{{site.firstpage}}.html" />
+    {% if page.layout == 'home' %}
+    <meta http-equiv="refresh" content="0; url={{site.baseurl}}/designdoc/pages/{{site.firstpage}}.html" />
+    {% endif %}
   {% endif %}
 </head>
