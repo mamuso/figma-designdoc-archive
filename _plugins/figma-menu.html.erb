@@ -11,7 +11,9 @@
         <a href="{{site.baseurl}}/<%= @pagespath %>/<%= item['filename'] %>.html">
           <%= item['title'] %>
           <% if !item['tag'].blank? %>
-            <span class='tag <%= item['tag'].downcase.sub(" ", "") %>'><%= item['tag'] %></span>
+            <span class='tag <%= item['tag'].downcase.sub(" ", "") %>'>
+              <%= item['tag'] %>
+            </span>
           <% end %>
         </a>
       </li>

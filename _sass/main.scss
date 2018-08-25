@@ -64,17 +64,51 @@
         background: rgba(rgba(0, 0, 0, .05), .05);
     }
     a {
-        display: block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         padding: 1rem .8rem;
         text-decoration: none;
         color: $text-color;
         border-radius: $base-radius;
-        transition: transform .2s ease;
+        transition: padding .2s ease;
         position: relative;
         &:hover {
             color: #000;
             background: rgba(rgba(0, 0, 0, .05), .05);
-            transform: translateX(.1rem);
+            padding-left: .9rem;
+            .tag {
+                width: auto;
+                height: auto;
+                text-indent: 0;
+                transform: translateX(.2rem);
+            }
+        }
+
+        .tag {
+            width: .6rem;
+            height: .6rem;
+            text-indent: -9999px;
+            position: relative;
+            padding: .1rem .3rem;
+            text-transform: uppercase;
+            border-radius: .3rem;
+            font-weight: 600;
+            font-size: .9rem;
+            letter-spacing: -.03rem;
+            color: #FFF;
+            position: absolute;
+            right: .6rem;
+            transition: transform .2s ease;
+        }
+        .tag.inprogress {
+            background: #5F9EFB;
+        }
+        .tag.new {
+            background: #3DB843;
+        }
+        .tag.shiny {
+            background: #550F5B;
         }
     }
 }
