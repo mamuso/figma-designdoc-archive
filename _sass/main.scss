@@ -1,5 +1,24 @@
 @charset "utf-8";
 
+// General styles
+table th { font-weight: bold; }
+table th, table td { 
+  border: 1px solid #ddd;
+  padding: 6px 13px;
+}
+table tr {
+    border-top: 1px solid #ccc;
+    background-color: #fff; 
+}
+table tr:nth-child(2n) { background-color: #f8f8f8; }
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 16px;
+  margin: 0;
+  color: #777;
+}
+
 // Page
 .page {
     .page-content {
@@ -129,7 +148,7 @@
         font-size: 2.0rem;
         line-height: 3.2rem;
         font-weight: 600;
-        margin-bottom: 2rem;
+        margin-bottom: 1.6rem;
         padding-top: 2rem;
     }
     p, ul, ol{
@@ -142,6 +161,7 @@
         margin: 1.2rem 0;
     }
     .page-summary {
+        font-size: 1.8rem;
         margin-bottom: 4.8rem;
     }
     .anchor {
