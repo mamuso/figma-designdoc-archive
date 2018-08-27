@@ -152,10 +152,16 @@ blockquote {
         margin-bottom: 1.6rem;
         padding-top: 2rem;
     }
-    p, ul, ol{
+    p {
         line-height: 2rem;
         max-width: 64rem;
         margin-bottom: 2rem;
+    }
+    ul, ol {
+        line-height: 2rem;
+        max-width: 64rem;
+        margin-bottom: 2rem;
+        margin-left: 2rem;
     }
     img {
         border-radius: .1rem;
