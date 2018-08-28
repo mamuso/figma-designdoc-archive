@@ -80,12 +80,14 @@ class FigmaDesigndoc
         ftitle = self.showTitle?(frame["name"]) ? frame["name"] : nil
         fimage = self.getFrameImage(doc, page["name"], frame)
         ftext = self.getFrameText(text, frame["name"])
+        fwidth = frame["absoluteBoundingBox"]["width"]
 
         block = {
           "title"     => ftitle,
           "image" => "/#{@assetpath}/#{fimage['filename']}",
           "figmaid"   => fimage['id'],
-          "text"      => ftext
+          "text"      => ftext,
+          "width"     => fwidth
         }
 
         blocks.push(block)
