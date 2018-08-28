@@ -61,7 +61,7 @@ class FigmaDesigndoc
     pageid = page["id"]
     pagetitle = page["name"]
     figmadoc = doc["document"]
-    filename = "#{figmadoc.parameterize}-#{pagetitle.parameterize}"
+    filename = "#{pagetitle.parameterize}-#{figmadoc.parameterize}"
     blocks = []
 
     if(!skip)
