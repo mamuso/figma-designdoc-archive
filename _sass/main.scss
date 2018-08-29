@@ -143,15 +143,18 @@ blockquote {
             height: 50%;
             display: block;
             position: absolute;
-            background: pink url('/assets/images/figma.svg');
-            background-size: 2.0rem 2.0rem;
-            margin: 1.4rem 0 0 -2.8rem;
+            background: transparent url('/assets/images/figma.svg') no-repeat center left;
+            background-size: 1.6rem 1.6rem;
+            margin: 1.5rem 0 0 -2.2rem;
             padding-right: 2.8rem;
             opacity: 0;
         }
         &:hover {
             .anchor-figma {
-                opacity: 1;
+                opacity: .7;
+                &:hover {
+                    opacity: 1;
+                }
             }
         }
     }
