@@ -137,6 +137,23 @@ blockquote {
         line-height: 4.8rem;
         font-weight: 600;
         margin-bottom: 2.4rem;
+        position: relative;
+        .anchor-figma {
+            width: 2.0rem;
+            height: 50%;
+            display: block;
+            position: absolute;
+            background: pink url('/assets/images/figma.svg');
+            background-size: 2.0rem 2.0rem;
+            margin: 1.4rem 0 0 -2.8rem;
+            padding-right: 2.8rem;
+            opacity: 0;
+        }
+        &:hover {
+            .anchor-figma {
+                opacity: 1;
+            }
+        }
     }
     h2 {
         font-size: 2.0rem;
