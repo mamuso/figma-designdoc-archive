@@ -6,9 +6,12 @@ layout: default
 <article>
   <header>
     {% if page.title %}
-    <h1 {% if page.figmaurl %} data-figmaurl="{{ page.figmaurl }}" {% endif %}>
-      {{ page.title }}
-      
+      <h1>
+        {% if page.figmaurl %}
+        <a class="anchor-figma" href="{{ page.figmaurl }}"></a>
+        {% endif %}
+        {{ page.title }}
+
       {% if page.tags %}
         {% assign tags = page.tags  | split: "," %}
         {% for tag in tags %}
