@@ -171,10 +171,13 @@ blockquote {
         margin-bottom: 2rem;
     }
     ul, ol {
-        line-height: 2rem;
+        line-height: 2.2rem;
         max-width: 64rem;
-        margin-bottom: 2rem;
-        margin-left: 2rem;
+        margin-bottom: 2.2rem;
+        list-style: inside;
+        li {
+            margin-bottom: .6rem;
+        }
     }
     img {
         border-radius: .1rem;
