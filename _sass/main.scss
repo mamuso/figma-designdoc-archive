@@ -139,11 +139,11 @@ blockquote {
         margin-bottom: 2.4rem;
         position: relative;
         .anchor-figma {
-            width: 2.0rem;
             height: 50%;
             display: block;
             position: absolute;
             background: transparent url('/assets/images/figma.svg') no-repeat center left;
+            filter: grayscale(100%);
             background-size: 1.6rem 1.6rem;
             margin: 1.5rem 0 0 -2.2rem;
             padding-right: 2.8rem;
@@ -151,7 +151,7 @@ blockquote {
         }
         &:hover {
             .anchor-figma {
-                opacity: .7;
+                opacity: .64;
                 &:hover {
                     opacity: 1;
                 }
