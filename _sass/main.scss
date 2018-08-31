@@ -131,7 +131,12 @@ blockquote {
     margin-left: $base-nav-width;
     padding: 4.8rem 4.0rem 4.8rem 7.2rem;
 
-    a { color: $brand-color; }
+    a {
+        color: $brand-color;
+        &:hover {
+            background: rgba($color: $brand-color, $alpha: .08);
+        }
+    }
     h1 {
         font-size: 3.8rem;
         line-height: 4.8rem;
