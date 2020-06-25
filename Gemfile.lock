@@ -80,7 +80,7 @@ GEM
       forwardable-extended (~> 2.6)
     public_suffix (3.0.3)
     raabro (1.1.6)
-    rack (2.0.8)
+    rack (2.2.3)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails-dom-testing (2.0.3)
