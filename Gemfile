@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem 'dotenv-rails', groups: [:development, :test]
+gem 'dotenv-rails', '>= 2.7.2', groups: [:development, :test]
 gem "activesupport"
 gem "rufus-scheduler"
 
