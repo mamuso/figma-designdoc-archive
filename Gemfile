@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 gem 'dotenv-rails', groups: [:development, :test]
-gem "activesupport"
+gem "activesupport", ">= 5.2.4.3"
 gem "rufus-scheduler"
 
 gem "jekyll"
